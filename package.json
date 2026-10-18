@@ -1,0 +1,91 @@
+{
+  "name": "cursor-thread-tools",
+  "displayName": "Cursor Thread Tools",
+  "description": "Export Cursor Composer threads to Markdown and manage thread lifecycle",
+  "version": "0.3.0",
+  "publisher": "stlwolf",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:threadTools.list",
+    "onCommand:threadTools.export",
+    "onCommand:threadTools.setOutputDir",
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "bin": {
+    "cursor-thread-tools": "./out/cli.js"
+  },
+  "contributes": {
+    "commands": [
+      {
+        "command": "threadTools.list",
+        "title": "Thread Tools: List Threads"
+      },
+      {
+        "command": "threadTools.export",
+        "title": "Thread Tools: Export Thread to Markdown"
+      },
+      {
+        "command": "threadTools.setOutputDir",
+        "title": "Thread Tools: Set Output Directory"
+      }
+    ],
+    "configuration": {
+      "title": "Cursor Thread Tools",
+      "properties": {
+        "cursorThreadTools.export.includeThinking": {
+          "type": "boolean",
+          "default": true,
+          "description": "Include thinking blocks in exported Markdown"
+        },
+        "cursorThreadTools.export.outputDir": {
+          "type": "string",
+          "default": ".thread-exports",
+          "description": "Output directory for exported files (relative to workspace root). Use 'Thread Tools: Set Output Directory' command for folder picker."
+        },
+        "cursorThreadTools.export.fileNameFormat": {
+          "type": "string",
+          "default": "{name}_{date}",
+          "description": "File name format. Placeholders: {name}, {date}, {id}"
+        },
+        "cursorThreadTools.autoSave.intervalMinutes": {
+          "type": "number",
+          "default": 0,
+          "description": "Auto-save interval in minutes. 0 = disabled (opt-in)"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run build",
+    "build": "node esbuild.mjs",
+    "watch": "node esbuild.mjs --watch",
+    "compile": "tsc -p ./ --noEmit",
+    "package": "vsce package --allow-missing-repository"
+  },
+  "dependencies": {
+    "better-sqlite3": "^13.0.3"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.0.0",
+    "@types/node": "^20.0.0",
+    "@types/vscode": "^1.85.0",
+    "@vscode/vsce": "^3.7.1",
+    "esbuild": "^0.27.3",
+    "typescript": "^5.0.0"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stlwolf/cursor-thread-tools.git"
+  },
+  "homepage": "https://github.com/stlwolf/cursor-thread-tools",
+  "bugs": {
+    "url": "https://github.com/stlwolf/cursor-thread-tools/issues"
+  }
+}
