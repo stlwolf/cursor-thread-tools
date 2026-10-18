@@ -2,71 +2,76 @@
 
 [日本語](README.md)
 
-Export Cursor Composer / Agent thread conversations to Markdown — as a **Cursor extension** or a **CLI**.
+Export Cursor Composer / Agent thread conversations to Markdown, either as a **Cursor extension** or from the terminal with a **CLI**.
 
 Cursor's built-in "Export Transcript" requires a GUI save dialog and is not available from the Command Palette. This tool opens Cursor's local SQLite store (`state.vscdb`) in **read-only** mode and reconstructs transcripts from it. Reading conversations does not use any of Cursor's private APIs.
 
-**Status:** maintenance / archive-friendly. Built and verified against **Cursor 3.25.x (Electron 42)**. Not published to the VS Code / Cursor Marketplace; install from a `.vsix` release or build from source.
+**Status:** maintenance mode. No major new features are planned. Verified against **Cursor 3.25.x (Electron 42)**. The extension is not published to the VS Code / Cursor Marketplace; install it from a `.vsix` release or build it from source.
 
 ## Features
 
-- List Composer threads (name, message count, Agent/Chat, date)
-- Export a thread (or many) to Markdown, including optional thinking blocks
-- Change export directory from the Command Palette
+- List Composer threads (name, message count, Agent / Chat mode, creation date)
+- Export one thread or many to Markdown, with thinking blocks optionally included
+- Change the export directory from the Command Palette
 - Automatically add the exported file to Composer as an `@` reference (this uses an internal Cursor command; if it fails, the export still completes)
-- Optional background auto-save (off by default)
+- Background auto-save (off by default)
 - CLI: `cursor-thread-tools list` / `export`
 
 ## Quick start
 
 ### Extension (recommended for most users)
 
-1. Download a platform `.vsix` from [GitHub Releases](https://github.com/stlwolf/cursor-thread-tools/releases).
-2. Cursor → `Cmd+Shift+P` → `Extensions: Install from VSIX...` → reload window.
-3. `Cmd+Shift+P` → `Thread Tools: List Threads` / `Export Thread to Markdown`.
+1. Download the `.vsix` for your platform from [GitHub Releases](https://github.com/stlwolf/cursor-thread-tools/releases).
+2. In Cursor, run `Cmd+Shift+P` → `Extensions: Install from VSIX...`, select the downloaded file, then reload the window.
+3. Run `Cmd+Shift+P` → `Thread Tools: List Threads` or `Thread Tools: Export Thread to Markdown`.
 
-Native `better-sqlite3` is bundled in the `.vsix`, so the binary must match your OS/arch (e.g. `darwin-arm64`).
+The `.vsix` bundles the native `better-sqlite3` module, so the file must match your OS and architecture. Releases currently ship an Apple Silicon build (`darwin-arm64`) only.
 
 ### CLI
 
 ```bash
 npm install
-bash scripts/setup-cli.sh   # Node-native rebuild + npm link
+bash scripts/setup-cli.sh   # rebuild for Node.js and run npm link
 
 cursor-thread-tools list
 cursor-thread-tools export --all --since 7d
 ```
 
-Full install / rebuild notes: [INSTALL.md](INSTALL.md) (Japanese, primary) · [INSTALL.en.md](INSTALL.en.md) · [CLI_USAGE.md](CLI_USAGE.md) (Japanese).
+For full install and rebuild steps, see [INSTALL.en.md](INSTALL.en.md) (Japanese original: [INSTALL.md](INSTALL.md)). CLI options and examples are in [CLI_USAGE.md](CLI_USAGE.md) (Japanese only).
 
 ## Requirements
 
-- macOS (Windows / Linux paths exist but are untested)
-- Node.js **20+** for CLI / source builds (**22+** recommended for `@electron/rebuild`)
+- macOS (Windows / Linux paths are supported but untested)
+- Node.js **20+** for the CLI and source builds (**22+** recommended when using `@electron/rebuild`)
 - Cursor installed and launched at least once (`state.vscdb` must exist)
-- Current build target: **Electron 42.10.0** (override with `ELECTRON_VERSION=...`)
+- Extension build target: **Electron 42.10.0** (override with `ELECTRON_VERSION=...`)
 
-## How it works (short)
+## How it works
 
-1. Open `state.vscdb` (SQLite) read-only
-2. Read `composerData:*` metadata from `cursorDiskKV`
-3. Decode `conversationState` (protobuf) → `agentKv:blob` → message text
-4. Emit Markdown
+1. Open `state.vscdb` (SQLite) read-only.
+2. Read `composerData:*` metadata from the `cursorDiskKV` table.
+3. Decode `conversationState` (protobuf) and follow the `agentKv:blob` entries it references to get the message text.
+4. Write the result as Markdown.
 
-Design choices (SQLite library, protobuf parsing, packaging, ABI split) are recorded under [`docs/decisions/`](docs/decisions/).
+Design decisions (SQLite library, protobuf parsing, packaging, the Electron / Node.js ABI split) are recorded in [`docs/decisions/`](docs/decisions/).
 
 ## Project layout
 
 ```text
 cursor-thread-tools/
 ├── README.md               # Japanese (primary)
-├── README.en.md            # English
+├── README.en.md            # English (this file)
+├── INSTALL.md              # Install guide (Japanese)
+├── INSTALL.en.md           # Install guide (English)
+├── CLI_USAGE.md            # CLI usage (Japanese)
 ├── LICENSE                 # MIT
-├── docs/decisions/         # ADRs (Japanese primary / *.en.md)
-├── src/
-├── scripts/install.sh
-├── scripts/setup-cli.sh
-├── INSTALL.md
+├── docs/decisions/         # ADRs (Japanese primary, English in *.en.md)
+├── src/                    # Extension and CLI sources
+├── scripts/
+│   ├── install.sh          # Extension build (rebuild for Electron)
+│   ├── setup-cli.sh        # CLI setup (rebuild for Node.js + npm link)
+│   └── release.sh          # Build the .vsix and create a GitHub Release
+├── esbuild.mjs             # Bundler config
 └── package.json
 ```
 
@@ -76,4 +81,4 @@ cursor-thread-tools/
 
 ## Disclaimer
 
-This tool depends on Cursor's undocumented on-disk format. Cursor updates can break listing or export. Unsupported / empty thread formats are skipped with a warning rather than failing the whole run. Use at your own risk; the authors do not guarantee compatibility with future Cursor versions.
+This tool depends on Cursor's undocumented on-disk format. Cursor updates can break listing or export. Unsupported or empty thread formats are skipped with a warning instead of failing the whole run. Use at your own risk; compatibility with future Cursor versions is not guaranteed.

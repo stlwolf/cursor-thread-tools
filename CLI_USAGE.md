@@ -1,6 +1,6 @@
 # cursor-thread-tools CLI
 
-Cursor の Composer スレッド会話データをターミナルから操作するための CLI。
+Cursor の Composer スレッドの会話データを、ターミナルから扱うための CLI です。
 
 ## セットアップ
 
@@ -16,7 +16,7 @@ npm rebuild better-sqlite3
 npm link
 ```
 
-> Electron 向けリビルド（`scripts/install.sh`）を実行した後に CLI を使う場合は、先に `npm rebuild better-sqlite3` を実行すること。
+> Electron 向けリビルド（`scripts/install.sh`）を実行した後に CLI を使う場合は、先に `npm rebuild better-sqlite3` を実行してください。
 
 ## コマンド
 
@@ -71,14 +71,14 @@ cursor-thread-tools export --all --format "{date}_{name}"
 | `--no-thinking` | export | thinking ブロックを除外 | false（含む） |
 | `--output-dir <path>` | export | 出力ディレクトリ | `.thread-exports` |
 | `--format <pattern>` | export | ファイル名テンプレート | `{name}_{date}` |
-| `--app-name <name>` | list, export | アプリ名（`Cursor` or `Code`） | `Cursor` |
+| `--app-name <name>` | list, export | アプリ名（`Cursor` または `Code`） | `Cursor` |
 | `--help` | - | ヘルプ表示 | - |
 
 ### `--format` プレースホルダ
 
 | プレースホルダ | 内容 |
 |-------------|------|
-| `{name}` | スレッド名（60文字以内、特殊文字は `_` 置換） |
+| `{name}` | スレッド名（60 文字まで。英数字、日本語、`_`、`-` 以外の文字は `_` に置き換える） |
 | `{date}` | エクスポート日（`YYYY-MM-DD`） |
 | `{id}` | エクスポートした時刻から作る短い文字列（スレッドの ID ではなく、実行するたびに変わる） |
 
@@ -169,11 +169,11 @@ npm rebuild better-sqlite3
 
 ### `state.vscdb not found`
 
-Cursor が一度も起動されていないか、パスが異なる。DB の場所:
+Cursor が一度も起動されていないか、DB のパスが想定と違います。DB の場所は次のとおりです。
 - macOS: `~/Library/Application Support/Cursor/User/globalStorage/state.vscdb`
 - Windows: `%APPDATA%\Cursor\User\globalStorage\state.vscdb`
 - Linux: `~/.config/Cursor/User/globalStorage/state.vscdb`
 
 ### `SQLITE_BUSY` / `SQLITE_LOCKED`
 
-Cursor が DB に書き込み中。ツールは自動的に WAL ファイルごとコピーしてフォールバックする（`busy_timeout=3000` 超過時）。通常はリトライ不要。
+Cursor が DB に書き込んでいる最中です。`busy_timeout=3000`（3 秒）を超えると、ツールは WAL ファイルを含めて DB を一時コピーし、そのコピーから読みます。通常はリトライの必要はありません。

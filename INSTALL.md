@@ -1,8 +1,8 @@
-[English version available](INSTALL.en.md)
+# Cursor Thread Tools インストールガイド
 
-# Cursor Thread Tools
+[English](INSTALL.en.md)
 
-Cursor の Composer スレッド会話を Markdown にエクスポートするツール。
+Cursor の Composer スレッドの会話を Markdown にエクスポートするツールです。
 Cursor 内のコマンドパレットから使う**拡張機能**と、ターミナルから使う **CLI** の 2 つの利用方法があります。
 
 ## 機能
@@ -16,7 +16,7 @@ Cursor 内のコマンドパレットから使う**拡張機能**と、ターミ
 
 ## 前提条件
 
-- **macOS**（Windows / Linux はパス対応済みだが未テスト）
+- **macOS**（Windows / Linux のパスにも対応していますが、テストはしていません）
 - **Node.js 20 以上**
 - **Cursor 3.25.x+**（Electron 42）
 - Cursor が一度は起動済みであること（`state.vscdb` が生成されている必要がある）
@@ -27,7 +27,7 @@ Cursor 内のコマンドパレットから使う**拡張機能**と、ターミ
 
 ## リリースからインストール（推奨）
 
-ビルド環境不要。`.vsix` をダウンロードして Cursor にインストールするだけです。
+ビルド環境は要りません。`.vsix` をダウンロードして Cursor にインストールするだけです。
 
 ### 1. .vsix をダウンロード
 
@@ -97,7 +97,7 @@ npm run package
 
 ---
 
-## クイックスタート: CLI として使う
+## ソースからビルド: CLI として使う
 
 ターミナルからスレッドの一覧表示やエクスポートができます。cron や git ワークフローとの組み合わせに便利です。
 

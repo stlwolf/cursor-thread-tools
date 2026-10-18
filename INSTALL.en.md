@@ -1,6 +1,6 @@
-[日本語版はこちら](INSTALL.md)
+# Cursor Thread Tools Install Guide
 
-# Cursor Thread Tools
+[日本語](INSTALL.md)
 
 Export Cursor Composer thread conversations to Markdown.
 Two ways to use: as a **Cursor extension** (via Command Palette) or as a **CLI** (via terminal).
@@ -16,7 +16,7 @@ Two ways to use: as a **Cursor extension** (via Command Palette) or as a **CLI**
 
 ## Prerequisites
 
-- **macOS** (Windows / Linux path support added but untested)
+- **macOS** (Windows / Linux paths are supported but untested)
 - **Node.js 20 or later**
 - **Cursor 3.25.x+** (Electron 42)
 - Cursor must have been launched at least once (`state.vscdb` needs to exist)
@@ -97,7 +97,7 @@ After export, the file is automatically added to Composer as an `@` reference. T
 
 ---
 
-## Quick Start: CLI
+## Build from Source: CLI
 
 Use the terminal to list and export threads. Useful for cron jobs, git workflows, and automation.
 
