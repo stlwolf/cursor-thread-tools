@@ -4,7 +4,7 @@
 
 Export Cursor Composer / Agent thread conversations to Markdown — as a **Cursor extension** or a **CLI**.
 
-Cursor's built-in "Export Transcript" requires a GUI save dialog and is not available from the Command Palette. This tool reads Cursor's local SQLite store (`state.vscdb`) in **read-only** mode and reconstructs transcripts without using Cursor's private APIs.
+Cursor's built-in "Export Transcript" requires a GUI save dialog and is not available from the Command Palette. This tool opens Cursor's local SQLite store (`state.vscdb`) in **read-only** mode and reconstructs transcripts from it. Reading conversations does not use any of Cursor's private APIs.
 
 **Status:** maintenance / archive-friendly. Built and verified against **Cursor 3.25.x (Electron 42)**. Not published to the VS Code / Cursor Marketplace; install from a `.vsix` release or build from source.
 
@@ -13,7 +13,7 @@ Cursor's built-in "Export Transcript" requires a GUI save dialog and is not avai
 - List Composer threads (name, message count, Agent/Chat, date)
 - Export a thread (or many) to Markdown, including optional thinking blocks
 - Change export directory from the Command Palette
-- Optionally add the exported file to Composer as an `@` reference
+- Automatically add the exported file to Composer as an `@` reference (this uses an internal Cursor command; if it fails, the export still completes)
 - Optional background auto-save (off by default)
 - CLI: `cursor-thread-tools list` / `export`
 

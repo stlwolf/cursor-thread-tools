@@ -10,7 +10,7 @@ Cursor 内のコマンドパレットから使う**拡張機能**と、ターミ
 - **スレッド一覧**: 全 Composer スレッドをメタデータ付き（名前、メッセージ数、Agent/Chat モード、作成日時）で表示
 - **Markdown エクスポート**: ユーザー発言 + アシスタント応答 + thinking ブロックを Markdown ファイルに出力
 - **エクスポート先変更**: コマンドパレットからフォルダピッカーで出力先ディレクトリを変更
-- **Composer 自動追加**: エクスポート後、ファイルを Composer に `@` 参照として自動追加
+- **Composer への自動追加**: エクスポートしたファイルを Composer に `@` 参照として自動で追加（Cursor の内部コマンドを使うため、追加できない場合はエクスポートだけを行う）
 - **自動保存**: 更新されたスレッドを定期的にバックグラウンド保存（オプトイン）
 - **CLI**: エディタを開かずにターミナルからスレッド一覧・エクスポートを実行
 
@@ -33,8 +33,9 @@ Cursor 内のコマンドパレットから使う**拡張機能**と、ターミ
 
 [GitHub Releases](https://github.com/stlwolf/cursor-thread-tools/releases) から、自分の環境に合った `.vsix` ファイルをダウンロードします。
 
-- macOS (Apple Silicon): `cursor-thread-tools-X.Y.Z-darwin-arm64.vsix`
-- macOS (Intel): `cursor-thread-tools-X.Y.Z-darwin-x64.vsix`
+- macOS（Apple Silicon）: `cursor-thread-tools-X.Y.Z-darwin-arm64.vsix`
+
+現在の Release で配布しているのは Apple Silicon 向けだけです。Intel Mac など、ほかの環境では下の「ソースからビルド」の手順を使ってください。
 
 `gh` CLI がある場合:
 
@@ -76,7 +77,7 @@ bash scripts/install.sh
 npm run package
 ```
 
-`extension/` 直下に `cursor-thread-tools-0.3.0.vsix` が生成されます。
+リポジトリ直下に `cursor-thread-tools-<version>.vsix`（例: `cursor-thread-tools-0.3.0.vsix`）が生成されます。
 
 ### 3. Cursor にインストール
 
@@ -92,7 +93,7 @@ npm run package
 
 エクスポート先はデフォルトでワークスペースルートの `.thread-exports/` です。`Set Output Directory` コマンドでフォルダピッカーから変更でき、ワークスペース設定に保存されます。
 
-エクスポート後、ファイルは自動的に Composer に `@` 参照として追加されます。Composer が開いていない場合はサイレントにスキップされます。
+エクスポート後、ファイルは自動的に Composer に `@` 参照として追加されます。この処理は Cursor の内部コマンドを使っています。Composer が開いていないときなど、追加できなかった場合は何も表示せずに飛ばし、エクスポートだけが完了します。
 
 ---
 

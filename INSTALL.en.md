@@ -10,7 +10,7 @@ Two ways to use: as a **Cursor extension** (via Command Palette) or as a **CLI**
 - **Thread listing**: Browse all Composer threads with metadata (name, message count, Agent/Chat mode, creation date)
 - **Markdown export**: Export thread conversations to Markdown files with user/assistant messages and thinking blocks
 - **Output directory picker**: Change the export destination via the Command Palette folder picker
-- **Composer auto-add**: Automatically add exported files to Composer as `@` references
+- **Composer auto-add**: Automatically add exported files to Composer as `@` references (this uses an internal Cursor command; if it fails, the export still completes)
 - **Auto-save**: Automatically export updated threads at a configurable interval (opt-in)
 - **CLI**: Export threads from the terminal without opening the editor
 
@@ -34,7 +34,8 @@ No build environment needed. Just download a `.vsix` and install it in Cursor.
 Go to [GitHub Releases](https://github.com/stlwolf/cursor-thread-tools/releases) and download the `.vsix` file for your platform:
 
 - macOS (Apple Silicon): `cursor-thread-tools-X.Y.Z-darwin-arm64.vsix`
-- macOS (Intel): `cursor-thread-tools-X.Y.Z-darwin-x64.vsix`
+
+Releases currently ship an Apple Silicon build only. On an Intel Mac or any other platform, follow the "Build from Source" steps below.
 
 With `gh` CLI:
 
@@ -76,7 +77,7 @@ bash scripts/install.sh
 npm run package
 ```
 
-This generates `cursor-thread-tools-0.3.0.vsix` in the `extension/` directory.
+This generates `cursor-thread-tools-<version>.vsix` (e.g. `cursor-thread-tools-0.3.0.vsix`) in the repository root.
 
 ### 3. Install in Cursor
 
@@ -92,7 +93,7 @@ This generates `cursor-thread-tools-0.3.0.vsix` in the `extension/` directory.
 
 Exported files are saved to `.thread-exports/` in the workspace root by default. Use the `Set Output Directory` command to pick a different folder via the folder picker; the choice is saved to workspace settings.
 
-After export, the file is automatically added to Composer as an `@` reference. If Composer is not open, this step is silently skipped.
+After export, the file is automatically added to Composer as an `@` reference. This step uses an internal Cursor command. If it fails (for example, when Composer is not open), it is silently skipped and the export still completes.
 
 ---
 

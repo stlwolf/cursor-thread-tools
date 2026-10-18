@@ -4,7 +4,7 @@
 
 Cursor の Composer / Agent スレッド会話を Markdown にエクスポートするツールです。**Cursor 拡張**と **CLI** の両方があります。
 
-Cursor 標準の「Export Transcript」は GUI の保存ダイアログ必須で、コマンドパレットにも出ません。本ツールはローカルの SQLite（`state.vscdb`）を**読み取り専用**で開き、Cursor の非公開 API に依存せずトランスクリプトを再構成します。
+Cursor 標準の「Export Transcript」は GUI の保存ダイアログ必須で、コマンドパレットにも出ません。本ツールはローカルの SQLite（`state.vscdb`）を**読み取り専用**で開き、そこからトランスクリプトを再構成します。会話の読み取りに Cursor の非公開 API は使いません。
 
 **ステータス:** メンテ / アーカイブ寄り。検証環境は **Cursor 3.25.x（Electron 42）**。VS Code / Cursor Marketplace には未公開。`.vsix` Release またはソースビルドで導入します。
 
@@ -13,7 +13,7 @@ Cursor 標準の「Export Transcript」は GUI の保存ダイアログ必須で
 - スレッド一覧（名前、メッセージ数、Agent/Chat、日時）
 - スレッドの Markdown エクスポート（thinking ブロックは任意）
 - コマンドパレットから出力先ディレクトリ変更
-- エクスポート後、Composer へ `@` 参照として追加（任意・成功時）
+- エクスポートしたファイルを Composer に `@` 参照として自動で追加（Cursor の内部コマンドを使うため、追加できない場合はエクスポートだけを行う）
 - バックグラウンド自動保存（既定オフ）
 - CLI: `cursor-thread-tools list` / `export`
 

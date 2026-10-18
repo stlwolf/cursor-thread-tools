@@ -33,7 +33,7 @@ cursor-thread-tools list --json
 cursor-thread-tools list --json | jq '[.[] | select(.isAgentic == true)]'
 
 # 名前で grep
-cursor-thread-tools list --json | jq -r '.[] | "\(.name)\t\(.composerId)"' | grep -i "phase"
+cursor-thread-tools list --json | jq -r '.[] | "\(.name)\t\(.composerId)"' | grep -i "login"
 ```
 
 ### `export` — Markdown エクスポート
@@ -80,7 +80,7 @@ cursor-thread-tools export --all --format "{date}_{name}"
 |-------------|------|
 | `{name}` | スレッド名（60文字以内、特殊文字は `_` 置換） |
 | `{date}` | エクスポート日（`YYYY-MM-DD`） |
-| `{id}` | 短縮 ID（タイムスタンプベース） |
+| `{id}` | エクスポートした時刻から作る短い文字列（スレッドの ID ではなく、実行するたびに変わる） |
 
 ## よく使うパターン
 
@@ -97,18 +97,18 @@ cursor-thread-tools export --all --since 24h --output-dir ~/Documents/cursor-thr
 # list で一覧を表示し、右端の UUID が composerId
 cursor-thread-tools list
 # 出力例:
-# Phase 4 キックオフ  [Agent]  42 msgs  2026/2/21 23:16:05  28c9145b-3d21-42fe-b3b5-d88d45053516
+# ログイン画面のバグ修正  [Agent]  42 msgs  2026/1/15 10:30:00  a1b2c3d4-e5f6-4789-abcd-ef0123456789
 
 # JSON + jq で名前から composerId を引く
-cursor-thread-tools list --json | jq -r '.[] | select(.name | test("Phase 4")) | .composerId'
+cursor-thread-tools list --json | jq -r '.[] | select(.name | test("ログイン")) | .composerId'
 ```
 
 ### 特定スレッドの単体エクスポート
 
 ```bash
 # composerId を指定
-cursor-thread-tools export 28c9145b-3d21-42fe-b3b5-d88d45053516
-# → .thread-exports/Phase_4_キックオフ_2026-02-21.md
+cursor-thread-tools export a1b2c3d4-e5f6-4789-abcd-ef0123456789
+# → .thread-exports/ログイン画面のバグ修正_2026-01-15.md
 ```
 
 ### git 連携
@@ -126,7 +126,7 @@ git commit -m "docs: export thread conversations"
 
 ```markdown
 # スレッド名
-_Exported on 2026-02-21 from Cursor Thread Tools_
+_Exported on 2026-01-15 from Cursor Thread Tools_
 
 ---
 
