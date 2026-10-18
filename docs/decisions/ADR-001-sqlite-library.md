@@ -1,26 +1,28 @@
-# ADR-001: SQLite library — better-sqlite3
+# ADR-001: SQLite ライブラリ — better-sqlite3
 
-- **Status:** Accepted
-- **Date:** 2026-02-20 (rewritten 2026-10-18 for public tree)
+[English](ADR-001-sqlite-library.en.md)
 
-## Context
+- **状態:** Accepted
+- **日付:** 2026-02-20（公開用に 2026-10-18 書き直し）
 
-Cursor stores Composer data in `state.vscdb` (SQLite). The extension and CLI must open that DB **read-only** while Cursor may be running.
+## コンテキスト
 
-Candidates considered: `better-sqlite3`, `vscode-node-sqlite3`, `sql.js` (WASM).
+Cursor は Composer データを `state.vscdb`（SQLite）に保存する。拡張と CLI は、Cursor 起動中でもこの DB を**読み取り専用**で開く必要がある。
 
-## Decision
+候補: `better-sqlite3`、`vscode-node-sqlite3`、`sql.js`（WASM）。
 
-Use **`better-sqlite3`**.
+## 決定
 
-## Rationale
+**`better-sqlite3` を採用する。**
 
-- Synchronous API fits VS Code command handlers
-- Proven read of live `state.vscdb` with `readonly` + `busy_timeout`
-- `sql.js` loads the whole DB into memory — risky for multi‑GB stores
-- Keep `vscode-node-sqlite3` only as a theoretical fallback if native rebuild fails permanently
+## 根拠
 
-## Consequences
+- 同期 API が VS Code コマンドハンドラに合う
+- `readonly` + `busy_timeout` でライブ `state.vscdb` の読み取り実績あり
+- `sql.js` は DB 全体をメモリに載せるため、数 GB 級では危険
+- `vscode-node-sqlite3` は native rebuild が恒久的に失敗した場合の理論上のフォールバックに留める
 
-- Native addon → Electron (extension) and Node (CLI) need **separate ABI builds**
-- Must ship OS/arch-specific binaries in `.vsix` (see ADR-004)
+## 影響
+
+- ネイティブアドオンのため、Electron（拡張）と Node（CLI）で **ABI 別ビルド**が必要
+- `.vsix` には OS/arch 固有バイナリを同梱する（ADR-004）

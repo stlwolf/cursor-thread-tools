@@ -1,25 +1,27 @@
-# ADR-006: esbuild bundling
+# ADR-006: esbuild バンドル
 
-- **Status:** Accepted
-- **Date:** 2026-02-21 (rewritten 2026-10-18)
+[English](ADR-006-esbuild-bundling.en.md)
 
-## Context
+- **状態:** Accepted
+- **日付:** 2026-02-21（2026-10-18 書き直し）
 
-Early builds used `tsc` emitting many files under `out/`. Packaging and load paths benefit from single-file bundles for the extension and CLI entrypoints.
+## コンテキスト
 
-## Decision
+初期は `tsc` で `out/` に複数ファイルを出していた。配布とロードのため、拡張と CLI のエントリを単一ファイルにまとめたい。
 
-- Bundle with **esbuild** (`extension.ts` → `out/extension.js`, `cli.ts` → `out/cli.js`)
-- Mark `vscode` and `better-sqlite3` as **external**
-- `format: 'cjs'`, `platform: 'node'`, sourcemaps on
-- CLI shebang via esbuild `banner` only
-- Keep `tsc --noEmit` for typecheck
+## 決定
 
-## Rationale
+- **esbuild** でバンドル（`extension.ts` → `out/extension.js`、`cli.ts` → `out/cli.js`）
+- `vscode` と `better-sqlite3` は **external**
+- `format: 'cjs'`、`platform: 'node'`、sourcemap あり
+- CLI の shebang は esbuild `banner` のみ
+- 型チェックは `tsc --noEmit`
 
-- Matches VS Code extension bundling guidance
-- Native modules break if esbuild inlines them (`__dirname` / binding resolution)
+## 根拠
 
-## Consequences
+- VS Code 拡張のバンドル案内に沿う
+- native モジュールを esbuild でインラインすると `__dirname` / binding 解決が壊れる
 
-- Runtime still requires `node_modules/better-sqlite3` (or the copy inside the `.vsix`)
+## 影響
+
+- 実行時は `node_modules/better-sqlite3`（または `.vsix` 内のコピー）が必要

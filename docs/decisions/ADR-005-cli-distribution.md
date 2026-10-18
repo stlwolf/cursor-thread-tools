@@ -1,29 +1,31 @@
-# ADR-005: CLI distribution
+# ADR-005: CLI 配布
 
-- **Status:** Accepted
-- **Date:** 2026-02-21 (rewritten 2026-10-18)
+[English](ADR-005-cli-distribution.en.md)
 
-## Context
+- **状態:** Accepted
+- **日付:** 2026-02-21（2026-10-18 書き直し）
 
-Need a simple way for developers to run `list` / `export` from a terminal. Candidates: `npm link` + `bin`, `npx`, standalone binaries (`pkg` / `nexe`).
+## コンテキスト
 
-## Decision
+ターミナルから `list` / `export` を手軽に実行したい。候補: `npm link` + `bin`、`npx`、スタンドアロンバイナリ（`pkg` / `nexe`）。
 
-- Register `cursor-thread-tools` via `package.json` `bin`
-- Use **`npm link`** (wrapped by `scripts/setup-cli.sh`) for global command install
-- Do not ship standalone native binaries
+## 決定
 
-## Rationale
+- `package.json` の `bin` で `cursor-thread-tools` を登録
+- グローバル導入は **`npm link`**（`scripts/setup-cli.sh` がラップ）
+- スタンドアロン native バイナリは出さない
 
-- `npx` interacts poorly with native modules (repeated install / ABI churn)
-- Standalone packagers do not handle native addons well
-- Audience is developers already comfortable with Node tooling
+## 根拠
 
-## Consequences
+- `npx` は native モジュールと相性が悪い（毎回 install / ABI ぶれ）
+- スタンドアロン系は native addon の同梱が弱い
+- 想定利用者は Node ツールに慣れた開発者
 
-| Use | Build | Command |
-|-----|--------|---------|
-| Extension in Cursor | Electron rebuild | `bash scripts/install.sh` |
-| CLI in terminal | Node rebuild | `bash scripts/setup-cli.sh` |
+## 影響
 
-Installed `.vsix` embeds its own native binary and is independent of the local CLI rebuild state.
+| 用途 | ビルド | コマンド |
+|------|--------|---------|
+| Cursor 内の拡張 | Electron rebuild | `bash scripts/install.sh` |
+| ターミナル CLI | Node rebuild | `bash scripts/setup-cli.sh` |
+
+インストール済み `.vsix` は独自のネイティブを同梱するため、ローカル CLI の rebuild 状態とは独立。

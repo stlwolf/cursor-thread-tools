@@ -1,65 +1,68 @@
 # cursor-thread-tools
 
-Export Cursor Composer / Agent thread conversations to Markdown — as a **Cursor extension** or a **CLI**.
+[English](README.en.md)
 
-Cursor's built-in "Export Transcript" requires a GUI save dialog and is not available from the Command Palette. This tool reads Cursor's local SQLite store (`state.vscdb`) in **read-only** mode and reconstructs transcripts without using Cursor's private APIs.
+Cursor の Composer / Agent スレッド会話を Markdown にエクスポートするツールです。**Cursor 拡張**と **CLI** の両方があります。
 
-**Status:** maintenance / archive-friendly. Built and verified against **Cursor 3.25.x (Electron 42)**. Not published to the VS Code / Cursor Marketplace; install from a `.vsix` release or build from source.
+Cursor 標準の「Export Transcript」は GUI の保存ダイアログ必須で、コマンドパレットにも出ません。本ツールはローカルの SQLite（`state.vscdb`）を**読み取り専用**で開き、Cursor の非公開 API に依存せずトランスクリプトを再構成します。
 
-## Features
+**ステータス:** メンテ / アーカイブ寄り。検証環境は **Cursor 3.25.x（Electron 42）**。VS Code / Cursor Marketplace には未公開。`.vsix` Release またはソースビルドで導入します。
 
-- List Composer threads (name, message count, Agent/Chat, date)
-- Export a thread (or many) to Markdown, including optional thinking blocks
-- Change export directory from the Command Palette
-- Optionally add the exported file to Composer as an `@` reference
-- Optional background auto-save (off by default)
+## 機能
+
+- スレッド一覧（名前、メッセージ数、Agent/Chat、日時）
+- スレッドの Markdown エクスポート（thinking ブロックは任意）
+- コマンドパレットから出力先ディレクトリ変更
+- エクスポート後、Composer へ `@` 参照として追加（任意・成功時）
+- バックグラウンド自動保存（既定オフ）
 - CLI: `cursor-thread-tools list` / `export`
 
-## Quick start
+## クイックスタート
 
-### Extension (recommended for most users)
+### 拡張機能（多くの場合はこちら）
 
-1. Download a platform `.vsix` from [GitHub Releases](https://github.com/stlwolf/cursor-thread-tools/releases).
-2. Cursor → `Cmd+Shift+P` → `Extensions: Install from VSIX...` → reload window.
-3. `Cmd+Shift+P` → `Thread Tools: List Threads` / `Export Thread to Markdown`.
+1. [GitHub Releases](https://github.com/stlwolf/cursor-thread-tools/releases) から環境に合う `.vsix` をダウンロード
+2. Cursor → `Cmd+Shift+P` → `Extensions: Install from VSIX...` → ウィンドウをリロード
+3. `Cmd+Shift+P` → `Thread Tools: List Threads` / `Export Thread to Markdown`
 
-Native `better-sqlite3` is bundled in the `.vsix`, so the binary must match your OS/arch (e.g. `darwin-arm64`).
+`.vsix` にはネイティブの `better-sqlite3` が含まれるため、OS/アーキテクチャが一致するファイルを使ってください（例: `darwin-arm64`）。
 
 ### CLI
 
 ```bash
 npm install
-bash scripts/setup-cli.sh   # Node-native rebuild + npm link
+bash scripts/setup-cli.sh   # Node 向け rebuild + npm link
 
 cursor-thread-tools list
 cursor-thread-tools export --all --since 7d
 ```
 
-Full install / rebuild notes: [INSTALL.md](INSTALL.md) (日本語) · [INSTALL.en.md](INSTALL.en.md) · [CLI_USAGE.md](CLI_USAGE.md).
+詳細: [INSTALL.md](INSTALL.md) · [INSTALL.en.md](INSTALL.en.md) · [CLI_USAGE.md](CLI_USAGE.md)
 
-## Requirements
+## 要件
 
-- macOS (Windows / Linux paths exist but are untested)
-- Node.js **20+** for CLI / source builds (**22+** recommended for `@electron/rebuild`)
-- Cursor installed and launched at least once (`state.vscdb` must exist)
-- Current build target: **Electron 42.10.0** (override with `ELECTRON_VERSION=...`)
+- macOS（Windows / Linux はパス対応あり・未テスト）
+- CLI / ソースビルド: Node.js **20+**（`@electron/rebuild` は **22+** 推奨）
+- Cursor を一度は起動済み（`state.vscdb` が存在すること）
+- 現行ビルド対象: **Electron 42.10.0**（`ELECTRON_VERSION=...` で上書き可）
 
-## How it works (short)
+## 仕組み（概要）
 
-1. Open `state.vscdb` (SQLite) read-only
-2. Read `composerData:*` metadata from `cursorDiskKV`
-3. Decode `conversationState` (protobuf) → `agentKv:blob` → message text
-4. Emit Markdown
+1. `state.vscdb` を read-only で開く
+2. `cursorDiskKV` から `composerData:*` メタデータを読む
+3. `conversationState`（protobuf）→ `agentKv:blob` → メッセージ本文
+4. Markdown を出力
 
-Design choices (SQLite library, protobuf parsing, packaging, ABI split) are recorded under [`docs/decisions/`](docs/decisions/).
+設計判断は [`docs/decisions/`](docs/decisions/) を参照。
 
-## Project layout
+## ディレクトリ構成
 
 ```text
 cursor-thread-tools/
-├── README.md
+├── README.md               # 本ファイル（日本語）
+├── README.en.md            # English
 ├── LICENSE                 # MIT
-├── docs/decisions/         # ADRs
+├── docs/decisions/         # ADR（日本語メイン / *.en.md）
 ├── src/
 ├── scripts/install.sh
 ├── scripts/setup-cli.sh
@@ -67,10 +70,10 @@ cursor-thread-tools/
 └── package.json
 ```
 
-## License
+## ライセンス
 
 [MIT](LICENSE)
 
-## Disclaimer
+## 免責
 
-This tool depends on Cursor's undocumented on-disk format. Cursor updates can break listing or export. Unsupported / empty thread formats are skipped with a warning rather than failing the whole run. Use at your own risk; the authors do not guarantee compatibility with future Cursor versions.
+本ツールは Cursor の非公開オンディスク形式に依存します。Cursor の更新で一覧・エクスポートが壊れることがあります。未対応 / 空の形式は警告してスキップします。自己責任で利用してください。将来バージョンとの互換性は保証しません。

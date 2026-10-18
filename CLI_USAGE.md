@@ -5,7 +5,7 @@ Cursor の Composer スレッド会話データをターミナルから操作す
 ## セットアップ
 
 ```bash
-cd projects/cursor-thread-tools/extension
+cd /path/to/cursor-thread-tools
 
 # Node.js 向けビルド（CLI 利用時）
 npm install

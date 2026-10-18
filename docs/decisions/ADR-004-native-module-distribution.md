@@ -1,30 +1,32 @@
-# ADR-004: Native module distribution (Electron + VSIX)
+# ADR-004: ネイティブモジュール配布（Electron + VSIX）
 
-- **Status:** Accepted
-- **Date:** 2026-02-21 (rewritten 2026-10-18; Electron target updated)
+[English](ADR-004-native-module-distribution.en.md)
 
-## Context
+- **状態:** Accepted
+- **日付:** 2026-02-21（2026-10-18 書き直し・Electron 対象更新）
 
-`better-sqlite3` ships a native `.node`. Extension Host runs **Electron**; CLI runs **Node**. ABIs differ. Cursor does not expose a reliable `electronVersion` field for auto-detection.
+## コンテキスト
 
-From v13, better-sqlite3 prefers `prebuilds/<platform>-<arch>.node` (Electron rebuild overwrites the matching prebuild; forge-meta records the ABI).
+`better-sqlite3` はネイティブ `.node` を含む。Extension Host は **Electron**、CLI は **Node** で ABI が異なる。Cursor は信頼できる `electronVersion` フィールドを公開していない。
 
-## Decision
+v13 以降、better-sqlite3 は `prebuilds/<platform>-<arch>.node` を優先する（Electron rebuild が該当 prebuild を上書きし、forge-meta に ABI を記録）。
 
-- Build with `scripts/install.sh`: `npm install` → esbuild → `@electron/rebuild`
-- Default Electron version: **`42.10.0`** (Cursor 3.25.x at last verification). Override via `ELECTRON_VERSION` or script argument
-- Require **`better-sqlite3` ^13** for Electron 42 / modern V8 APIs (v12 fails to compile)
-- Ship OS/arch-specific `.vsix` including the rebuilt native binary
-- Do not use a heavy `postinstall` rebuild on every `npm install`
+## 決定
 
-## Rationale
+- `scripts/install.sh` で `npm install` → esbuild → `@electron/rebuild`
+- 既定 Electron: **`42.10.0`**（最終検証時の Cursor 3.25.x）。`ELECTRON_VERSION` または引数で上書き
+- Electron 42 / 現行 V8 向けに **`better-sqlite3` ^13** が必要（v12 はコンパイル失敗）
+- 再ビルド済みネイティブを含む OS/arch 固有 `.vsix` を配布
+- 毎回の `npm install` で重い `postinstall` rebuild はしない
 
-- Explicit rebuild is easier to debug than silent postinstall
-- Platform-specific VSIX matches how native addons are actually consumed
-- Same pattern as earlier Electron 39 + better-sqlite3 v12; bumped again when Cursor moved to Electron 42
+## 根拠
 
-## Consequences
+- 明示的な rebuild の方がデバッグしやすい
+- プラットフォーム固有 VSIX は native addon の現実的な配布形
+- 以前の Electron 39 + better-sqlite3 v12 と同型。Cursor が Electron 42 になったタイミングで再バンプ
 
-- Extension and CLI cannot share one `node_modules` ABI (see ADR-005)
-- After `install.sh`, CLI users must run `setup-cli.sh` / `npm rebuild` for Node
-- Older Cursor / Electron versions are out of support for new releases
+## 影響
+
+- 拡張と CLI で同一 `node_modules` ABI を共有できない（ADR-005）
+- `install.sh` 後に CLI を使うには `setup-cli.sh` / `npm rebuild` が必要
+- 古い Cursor / Electron は新規 Release のサポート対象外

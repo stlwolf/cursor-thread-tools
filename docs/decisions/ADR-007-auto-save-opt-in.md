@@ -1,23 +1,25 @@
-# ADR-007: Auto-save defaults to off (opt-in)
+# ADR-007: 自動保存の既定はオフ（オプトイン）
 
-- **Status:** Accepted
-- **Date:** 2026-02-21 (rewritten 2026-10-18)
+[English](ADR-007-auto-save-opt-in.en.md)
 
-## Context
+- **状態:** Accepted
+- **日付:** 2026-02-21（2026-10-18 書き直し）
 
-Background export of updated threads is useful for archiving, but writing Markdown into the workspace by default can surprise users and duplicate other transcript tools.
+## コンテキスト
 
-## Decision
+更新スレッドのバックグラウンド保存はアーカイブに便利だが、既定でワークスペースへ Markdown を書くと驚きや他ツールとの二重保存になりうる。
 
-Default `cursorThreadTools.autoSave.intervalMinutes` to **`0` (disabled)**. Users enable explicitly.
+## 決定
 
-## Rationale
+`cursorThreadTools.autoSave.intervalMinutes` の既定を **`0`（無効）** にする。有効化はユーザー明示。
 
-- Least surprise: no unexpected `.thread-exports/` growth
-- Avoid silent archival of sensitive chats
-- Reduce periodic DB read load unless requested
+## 根拠
 
-## Consequences
+- 最小驚き: 意図しない `.thread-exports/` の肥大化を避ける
+- センシティブな会話の黙った保存を避ける
+- 不要な定期 DB 読みを避ける
 
-- `setupAutoSave()` no-ops when interval ≤ 0
-- Extension still activates on startup; timer only runs when configured
+## 影響
+
+- interval ≤ 0 なら `setupAutoSave()` は何もしない
+- 拡張は起動時に activate するが、タイマーは設定時のみ

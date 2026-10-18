@@ -1,23 +1,25 @@
-# ADR-002: Raw protobuf wire-format parser
+# ADR-002: raw protobuf wire-format パーサー
 
-- **Status:** Accepted
-- **Date:** 2026-02-21 (rewritten 2026-10-18)
+[English](ADR-002-raw-protobuf.en.md)
 
-## Context
+- **状態:** Accepted
+- **日付:** 2026-02-21（2026-10-18 書き直し）
 
-Message bodies live in `agentKv:blob` as protobuf. Options: generated `.proto` code, `@bufbuild/protobuf` / `protobufjs`, or a tiny hand-written wire parser.
+## コンテキスト
 
-## Decision
+メッセージ本文は `agentKv:blob` に protobuf として入る。候補は `.proto` 生成、`@bufbuild/protobuf` / `protobufjs`、または小さな自前 wire パーサー。
 
-Implement a **zero-dependency raw wire-format parser** in `extension/src/proto/decoder.ts`.
+## 決定
 
-## Rationale
+**依存ゼロの raw wire-format パーサー**を `src/proto/decoder.ts` に実装する。
 
-- Only a few fields are needed (text, blob IDs, steps)
-- No official `.proto` from Cursor; reverse-engineering a full schema is high cost
-- Extra protobuf libraries add little once raw parsing is validated on real blobs
+## 根拠
 
-## Consequences
+- 必要なフィールドが少ない（text、blob ID、steps）
+- Cursor 公式の `.proto` はなく、フルスキーマの逆引きはコストが高い
+- 実データで raw パースが通った以上、追加ライブラリの旨味は薄い
 
-- Cursor schema changes require updating field numbers in `decoder.ts`
-- No protobuf runtime in `package.json`
+## 影響
+
+- Cursor のスキーマ変更時は `decoder.ts` のフィールド番号更新が必要
+- `package.json` に protobuf ランタイムを追加しない
