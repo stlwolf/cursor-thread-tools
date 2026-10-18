@@ -18,7 +18,7 @@ Cursor 内のコマンドパレットから使う**拡張機能**と、ターミ
 
 - **macOS**（Windows / Linux はパス対応済みだが未テスト）
 - **Node.js 20 以上**
-- ****Cursor 3.25.x+**（Electron 42）
+- **Cursor 3.25.x+**（Electron 42）
 - Cursor が一度は起動済みであること（`state.vscdb` が生成されている必要がある）
 
 > **安全性**: このツールは Cursor のデータを**読み取り専用**でアクセスします。データを変更・削除することはありません。
@@ -31,7 +31,7 @@ Cursor 内のコマンドパレットから使う**拡張機能**と、ターミ
 
 ### 1. .vsix をダウンロード
 
-[GitHub Releases](https://github.com/stlwolf/ai-development-hub/releases) から、自分の環境に合った `.vsix` ファイルをダウンロードします。
+[GitHub Releases](https://github.com/stlwolf/cursor-thread-tools/releases) から、自分の環境に合った `.vsix` ファイルをダウンロードします。
 
 - macOS (Apple Silicon): `cursor-thread-tools-X.Y.Z-darwin-arm64.vsix`
 - macOS (Intel): `cursor-thread-tools-X.Y.Z-darwin-x64.vsix`

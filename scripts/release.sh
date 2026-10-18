@@ -115,7 +115,7 @@ cat > "$NOTES_FILE" <<EOF
 
 \`gh\` CLI がある場合:
 \`\`\`bash
-gh release download ${TAG} --repo stlwolf/ai-development-hub --pattern '*.vsix'
+gh release download ${TAG} --repo stlwolf/cursor-thread-tools --pattern '*.vsix'
 \`\`\`
 
 ## 対応プラットフォーム
@@ -125,7 +125,7 @@ gh release download ${TAG} --repo stlwolf/ai-development-hub --pattern '*.vsix'
 | \`${VSIX_RELEASE}\` | ${OS} | ${ARCH} |
 
 > ネイティブモジュール (better-sqlite3) を含むため、ビルド元と同じ OS/アーキテクチャでのみ動作します。
-> 別プラットフォーム用が必要な場合は[ソースからビルド](projects/cursor-thread-tools/extension/INSTALL.md)してください。
+> 別プラットフォーム用が必要な場合は[ソースからビルド](INSTALL.md)してください。
 
 ## 前提条件
 

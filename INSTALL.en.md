@@ -18,7 +18,7 @@ Two ways to use: as a **Cursor extension** (via Command Palette) or as a **CLI**
 
 - **macOS** (Windows / Linux path support added but untested)
 - **Node.js 20 or later**
-- **Cursor 0.40+** (Electron 39)
+- **Cursor 3.25.x+** (Electron 42)
 - Cursor must have been launched at least once (`state.vscdb` needs to exist)
 
 > **Safety**: This tool accesses Cursor data in **read-only** mode. It never modifies or deletes any data.
@@ -31,7 +31,7 @@ No build environment needed. Just download a `.vsix` and install it in Cursor.
 
 ### 1. Download .vsix
 
-Go to [GitHub Releases](https://github.com/stlwolf/ai-development-hub/releases) and download the `.vsix` file for your platform:
+Go to [GitHub Releases](https://github.com/stlwolf/cursor-thread-tools/releases) and download the `.vsix` file for your platform:
 
 - macOS (Apple Silicon): `cursor-thread-tools-X.Y.Z-darwin-arm64.vsix`
 - macOS (Intel): `cursor-thread-tools-X.Y.Z-darwin-x64.vsix`
