@@ -146,5 +146,3 @@ RELEASE_URL=$(gh release view "$TAG" --json url -q .url)
 echo ""
 echo "=== Release complete ==="
 echo "URL: ${RELEASE_URL}"
-echo ""
-echo "Share this URL with team members!"

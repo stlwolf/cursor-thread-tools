@@ -1,7 +1,7 @@
 {
   "name": "cursor-thread-tools",
   "displayName": "Cursor Thread Tools",
-  "description": "Export Cursor Composer threads to Markdown and manage thread lifecycle",
+  "description": "Export Cursor Composer / Agent threads to Markdown (extension + CLI)",
   "version": "0.3.0",
   "publisher": "stlwolf",
   "engines": {
