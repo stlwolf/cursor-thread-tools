@@ -19,7 +19,7 @@ Cursor's built-in "Export Transcript" requires a GUI save dialog and is not avai
 
 ### Extension (recommended for most users)
 
-1. Download a platform `.vsix` from [GitHub Releases](https://github.com/stlwolf/cursor-thread-tools/releases) (or the [ai-development-hub mirror tags](https://github.com/stlwolf/ai-development-hub/releases?q=cursor-thread-tools) until cut over).
+1. Download a platform `.vsix` from [GitHub Releases](https://github.com/stlwolf/cursor-thread-tools/releases).
 2. Cursor → `Cmd+Shift+P` → `Extensions: Install from VSIX...` → reload window.
 3. `Cmd+Shift+P` → `Thread Tools: List Threads` / `Export Thread to Markdown`.
 
